@@ -1,10 +1,24 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import zhCN from "antd/es/locale/zh_CN";
+import { ConfigProvider } from "antd";
+import "./styles/global.less";
+import { Provider } from "react-redux";
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import store from './store';
+
+import App from "./views/App";
+
+import * as serviceWorker from "./serviceWorker";
+
+ReactDOM.render(
+  <Provider store={store}>
+    <ConfigProvider locale={zhCN}>
+      <App />
+    </ConfigProvider>
+  </Provider>,
+  document.getElementById("root")
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
