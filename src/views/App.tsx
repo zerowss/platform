@@ -15,7 +15,7 @@ const Home = lazy(() => import(/* webpackChunkName:"Home" */ "@layout/Home"));
 const App:React.FC =()=> {
   return (
     <Suspense fallback={<Loading />}>
-      <Router basename={"/"}>
+      <Router>
         <Switch>
           <Route
             path="/login"
