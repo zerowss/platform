@@ -16,7 +16,7 @@ export interface TodoListState {
 }
 const defaultList: TodoListState[] = [];
 
- //Action
+ // Action
 let nextTodoId:number = 0;
 export const addTodo: (text: string) => IAction<TodoListState> = (text:string) => ({
     type: 'ADD_TODO',
@@ -34,7 +34,7 @@ export const toggleTodo: (id: number) => IAction<TodoListState> = (id:number) =>
     }
 })
 
-//reducers
+// reducers
 const todosReducer: Reducer<TodoListState[], IAction<any>> = (state = defaultList, action: IAction<any>) => {
     const { type, payload } = action;
     switch (type) {
