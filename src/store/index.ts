@@ -10,10 +10,12 @@ import { createStore, combineReducers, applyMiddleware, compose, Middleware, Red
 import reduxThunk from 'redux-thunk';
 import reduxLogger from 'redux-logger';
 import todosReducer from './module/todolist';
+import userReducer from './module/user';
 import { IStoreState, IAction } from './types';
 
 const reducers: Reducer<IStoreState, IAction<any>> = combineReducers<IStoreState>({
-    todos: todosReducer
+    todos: todosReducer,
+    user: userReducer
 });
 
 const middleware: Middleware[] = [reduxThunk];

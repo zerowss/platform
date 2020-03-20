@@ -68,7 +68,7 @@
     "prefer-rest-params": "error",
     "prefer-spread": "error",
     "prefer-const": "error",
-    "no-empty-function": "error",
+    "no-empty-function": "off",
     "eqeqeq": "error",
     "array-callback-return": "error",
     "default-case": "error",

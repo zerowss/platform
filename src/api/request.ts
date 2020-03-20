@@ -21,21 +21,32 @@ interface ResponseData<T> {
 }
 
 interface Options extends AxiosRequestConfig {
-    globalHandle: boolean,
-    isTransformRequest: boolean
+    globalHandle?: boolean,
+    isTransformRequest?: boolean
 }
 
-let cancels = [];
+const cancels = [];
 
 axios.defaults.headers = {
     'Content-Type': 'application/json;charset=utf-8',
+    'post':{
+        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+    },
+    'put': {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+    },
+    'get': {
+        'Pragma': 'no-cache',
+        'Cache-Control': 'no-cache'
+    }
 };
 
-axios.defaults.baseURL = process.env.NODE_ENV === 'production' ?
-    AdminConfig.PRODUCTION_URL :
-    AdminConfig.DEV_URL;
+// axios.defaults.baseURL = process.env.NODE_ENV === 'production' ?
+//     AdminConfig.PRODUCTION_URL :
+//     AdminConfig.DEV_URL;
 
 axios.defaults.timeout = 60000;
+axios.defaults.withCredentials = true;
 
 // 添加请求拦截器
 axios.interceptors.request.use(
@@ -54,6 +65,7 @@ axios.interceptors.request.use(
 // 添加响应拦截器，拦截登录过期或者没有权限
 axios.interceptors.response.use(
     (response: AxiosResponse<ResponseData<any>>) => {
+        console.log(response)
         const { data } = response;
         if (!data) {
             return Promise.reject(response);
@@ -69,7 +81,7 @@ axios.interceptors.response.use(
                     // store.dispatch(logout());
                     window.location.href = `${
                         window.location.origin
-                        }/react-ant-admin/system/login?redirectURL=${encodeURIComponent(window.location.href)}`;
+                        }/login`;
                 },
                 onCancel() { },
             });
@@ -88,12 +100,14 @@ axios.interceptors.response.use(
         return Promise.reject(new Error(data.msg));
 
     },
-    (error: AxiosError) => Promise.reject(error)
+    (error: AxiosError) => {
+        console.log(error)
+        return Promise.reject(error)
+    }
 )
 
 
-
-export function fetch(options: Options) {
+export default function fetch(options: Options = {}) {
     const { globalHandle = true, isTransformRequest = true } = options;
     const CancelToken = axios.CancelToken;
     const config:AxiosRequestConfig = {};
@@ -107,11 +121,6 @@ export function fetch(options: Options) {
         ];
     }
     const instance = axios.create(options);
-    instance.defaults.headers.get['Cache-Control'] = 'no-cache';
-    instance.defaults.headers.get['Pragma'] = 'no-cache';
-    instance.defaults.headers.common['Accept'] = '';
-    instance.defaults.headers.get['Content-Type'] = 'application/x-www-form-urlencoded charset=utf-8';
-    
     return instance;
 }
 

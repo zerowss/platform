@@ -45,7 +45,7 @@ export const AdminConfig: Config = {
     LOGIN_EXPIRE: 400,
 
     // dev请求地址
-    DEV_URL: 'https://erp.t.iron.mlwplus.com',
+    DEV_URL: 'http://112.126.98.4',
 
     // production请求地址
     PRODUCTION_URL: 'https://erp.t.iron.mlwplus.com',
