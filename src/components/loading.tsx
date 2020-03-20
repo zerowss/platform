@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Spin } from 'antd'
 
-interface ILoadingProps {
+interface PLoadingProps {
   size?: 'small' | 'default' | 'large'
 }
 
