@@ -69,7 +69,7 @@
     "prefer-spread": "error",
     "prefer-const": "error",
     "no-empty-function": "off",
-    "eqeqeq": "error",
+    "eqeqeq": "off",
     "array-callback-return": "error",
     "default-case": "error",
     "no-shadow": "error",

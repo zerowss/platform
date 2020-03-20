@@ -1,5 +1,7 @@
 import { Route, Redirect } from "react-router-dom";
 import React from "react";
+import { useSelector } from 'react-redux';
+import { IStoreState } from "@store/types";
 
 function PrivateRoute(parameter:any) {
   const { component, isLogin, location, ...rest } = parameter;

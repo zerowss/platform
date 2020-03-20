@@ -98,7 +98,8 @@
   "eslintConfig": {
     "extends": "react-app",
     "no-console": "off",
-    "no-empty-function": "off"
+    "no-empty-function": "off",
+    "eqeqeq": "off"
   },
   "browserslist": {
     "production": [
