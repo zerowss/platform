@@ -1,14 +1,8 @@
 import { Reducer } from 'redux';
 import { IAction } from '../types';
 import LocalStore from '@utils/storage';
-
 // 定义接口
-export interface UserState {
-    id: number | string;
-    tel: number | string;
-    name: string;
-}
-
+import { UserState } from '@typings/userInfo';
 
 // Type
 const USER_KEY = 'userInfo';
@@ -18,9 +12,12 @@ const SET_USER_OUT = 'SET_USER_OUT';
 // action
 const localUserInfo = LocalStore.getValue<UserState>(USER_KEY) || {};
 const defaultUser: UserState = {
-    id: '',
+    id: 0,
     tel: '',
     name: '',
+    created_at: '',
+    updated_at: '',
+    source: 0,
     ...localUserInfo
 };
 

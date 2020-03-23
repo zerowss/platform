@@ -24,7 +24,6 @@ const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
-const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin');
 const { globalVars } = require('./utils');
 
 const postcssNormalize = require('postcss-normalize');
@@ -588,6 +587,7 @@ module.exports = function(webpackEnv) {
             : undefined
         )
       ),
+      
       // Inlines the webpack runtime script. This script is too small to warrant
       // a network request.
       // https://github.com/facebook/create-react-app/issues/5358
@@ -628,7 +628,6 @@ module.exports = function(webpackEnv) {
           filename: 'static/css/[name].[contenthash:8].css',
           chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
         }),
-      new AntdDayjsWebpackPlugin(),
       // Generate an asset manifest file with the following content:
       // - "files" key: Mapping of all asset filenames to their corresponding
       //   output file so that tools can pick it up without having to parse

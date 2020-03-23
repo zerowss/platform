@@ -1,21 +1,16 @@
 import React, { Suspense } from "react";
-import { Switch, Route, Redirect, RouteProps } from "react-router-dom";
-import routes from "../../router";
+import { Switch, Route } from "react-router-dom";
 import "./index.less";
-import Loading from "../../components/loading";
+import Loading from "@components/loading";
+import mainRoutes from "@router/mainRoutes";
+import PrivateRoute from "@components/PrivateRoute";
 
 const LayoutContent: React.FC = () => {
   return (
     <div className="content-wrap">
       <Suspense fallback={<Loading />}>
         <Switch>
-          {routes.map((r: RouteProps, index: number) => {
-            const { path, exact, component } = r;
-            const LazyCom = component;
-            return (
-              <Route key={index} exact path={path} component={component} />
-            );
-          })}
+          {mainRoutes.map((r, index) => (<PrivateRoute key={index} />))}
         </Switch>
       </Suspense>
     </div>

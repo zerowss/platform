@@ -6,39 +6,9 @@
  * @Description: In User Settings Edit
  * @FilePath: /platform/src/router/index.ts
  */
-import * as React from "react";
-import { RouteProps } from "react-router-dom";
+import staticRoutes from './staticRoutes';
+import mainRoutes from './mainRoutes';
 
-const { lazy } = React;
-
-const TodoList = lazy(() =>
-  import(/* webpackChunkName:"todolist" */ "../views/todolist")
-);
-
-const Detail = lazy(() =>
-  import(/* webpackChunkName:"detail" */ "../views/detail")
-);
-
-const NoFoundPage = lazy(() =>
-  import(/* webpackChunkName:"404" */ "../components/404")
-);
-
-const routes: RouteProps[] = [
-  {
-    path: "/todoList",
-    exact: true,
-    component: TodoList
-  },
-  {
-    path: "/detail",
-    exact: true,
-    component: Detail
-  },
-  {
-    path: "*",
-    exact: false,
-    component: NoFoundPage
-  }
-];
+const routes = [...staticRoutes, ...mainRoutes];
 
 export default routes;

@@ -11,10 +11,13 @@ import App from "./views/App";
 
 import * as serviceWorker from "./serviceWorker";
 
+console.log('app start');
+
+
 ReactDOM.render(
   <Provider store={store}>
     <ConfigProvider locale={zhCN}>
-      <App />
+        <App />
     </ConfigProvider>
   </Provider>,
   document.getElementById("root")

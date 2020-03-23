@@ -2,8 +2,8 @@ import React from "react";
 import { Tag } from "antd";
 import "./index.less";
 
-const LayoutSider: React.FC = () => {
-  const closeTag = (e: { preventDefault: () => void; }) => {
+const Breadceumb: React.FC = () => {
+  const closeTag = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     console.log("Clicked! But prevent default.");
   };
@@ -22,4 +22,4 @@ const LayoutSider: React.FC = () => {
   );
 };
 
-export default LayoutSider;
+export default Breadceumb;

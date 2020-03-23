@@ -22,7 +22,6 @@
     "@typescript-eslint/eslint-plugin": "^2.10.0",
     "@typescript-eslint/parser": "^2.10.0",
     "antd": "^4.0.2",
-    "antd-dayjs-webpack-plugin": "^0.0.8",
     "axios": "^0.19.2",
     "babel-eslint": "10.0.3",
     "babel-jest": "^24.9.0",
@@ -40,7 +39,7 @@
     "eslint": "^6.6.0",
     "eslint-config-react-app": "^5.2.0",
     "eslint-loader": "3.0.3",
-    "eslint-plugin-flowtype": "4.6.0",
+    "eslint-plugin-flowtype": "3.x",
     "eslint-plugin-import": "2.20.0",
     "eslint-plugin-jsx-a11y": "6.2.3",
     "eslint-plugin-react": "7.18.0",
@@ -65,8 +64,8 @@
     "postcss-normalize": "8.0.1",
     "postcss-preset-env": "6.7.0",
     "postcss-safe-parser": "4.0.1",
-    "qs": "^6.9.1",
     "react": "^16.13.0",
+    "react-activation": "^0.4.3-beta.1",
     "react-app-polyfill": "^1.0.6",
     "react-dev-utils": "^10.2.0",
     "react-dom": "^16.13.0",
@@ -96,10 +95,7 @@
     "test": "node scripts/test.js"
   },
   "eslintConfig": {
-    "extends": "react-app",
-    "no-console": "off",
-    "no-empty-function": "off",
-    "eqeqeq": "off"
+    "extends": "react-app"
   },
   "browserslist": {
     "production": [
@@ -166,6 +162,9 @@
   "babel": {
     "presets": [
       "react-app"
+    ],
+    "plugins": [
+      "react-activation/babel"
     ]
   }
 }
