@@ -1,12 +1,11 @@
 import React from "react";
 import { Layout } from "antd";
-import './index.less';
+import "./index.less";
 
-import LayoutHeader from '../LayoutHeader';
-import LayoutSider from '../LayoutSider';
+import LayoutHeader from "../LayoutHeader";
+import LayoutSider from "../LayoutSider";
 import Breadcrumb from "../Breadcrumb";
 import LayoutContent from "../LayoutContent";
-import { AliveScope } from 'react-activation';
 
 const { Content } = Layout;
 
@@ -25,9 +24,7 @@ const Home: React.FC = props => {
                 margin: 0
               }}
             >
-              <AliveScope>
-                <LayoutContent />
-              </AliveScope>
+              <LayoutContent />
             </Content>
           </Layout>
         </Layout>

@@ -3276,14 +3276,6 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-create-react-context@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.npm.taobao.org/create-react-context/download/create-react-context-0.3.0.tgz#546dede9dc422def0d3fc2fe03afe0bc0f4f7d8c"
-  integrity sha1-VG3t6dxCLe8NP8L+A6/gvA9PfYw=
-  dependencies:
-    gud "^1.0.0"
-    warning "^4.0.3"
-
 cross-spawn@7.0.1:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-7.0.1.tgz#0ab56286e0f7c24e153d04cc2aa027e43a9a5d14"
@@ -9087,16 +9079,6 @@ rc-virtual-list@~1.0.0:
     classnames "^2.2.6"
     rc-util "^4.8.0"
 
-react-activation@^0.4.3-beta.1:
-  version "0.4.3-beta.1"
-  resolved "https://registry.npm.taobao.org/react-activation/download/react-activation-0.4.3-beta.1.tgz#98419ebe1a2bd2eb068dd6499c675bfb76a4a31a"
-  integrity sha1-mEGevhor0usGjdZJnGdb+3akoxo=
-  dependencies:
-    create-react-context "^0.3.0"
-    hoist-non-react-statics "^3.3.0"
-    jsx-ast-utils "^2.2.1"
-    react-node-key "^0.0.3"
-
 react-app-polyfill@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/react-app-polyfill/-/react-app-polyfill-1.0.6.tgz#890f8d7f2842ce6073f030b117de9130a5f385f0"
@@ -9174,13 +9156,6 @@ react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   resolved "https://registry.npm.taobao.org/react-lifecycles-compat/download/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha1-TxonOv38jzSIqMUWv9p4+HI1I2I=
 
-react-node-key@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.npm.taobao.org/react-node-key/download/react-node-key-0.0.3.tgz#45f55dd6ac2c529bc1127cc97557581448653271"
-  integrity sha1-RfVd1qwsUpvBEnzJdVdYFEhlMnE=
-  dependencies:
-    jsx-ast-utils "^2.2.1"
-
 react-redux@^7.2.0:
   version "7.2.0"
   resolved "https://registry.npm.taobao.org/react-redux/download/react-redux-7.2.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-redux%2Fdownload%2Freact-redux-7.2.0.tgz#f970f62192b3981642fec46fd0db18a074fe879d"
@@ -9191,6 +9166,11 @@ react-redux@^7.2.0:
     loose-envify "^1.4.0"
     prop-types "^15.7.2"
     react-is "^16.9.0"
+
+react-router-cache-route@^1.8.4:
+  version "1.8.4"
+  resolved "https://registry.npm.taobao.org/react-router-cache-route/download/react-router-cache-route-1.8.4.tgz#57523803f14edd1e04c2de951451d97c5d27c971"
+  integrity sha1-V1I4A/FO3R4Ewt6VFFHZfF0nyXE=
 
 react-router-dom@^5.1.2:
   version "5.1.2"

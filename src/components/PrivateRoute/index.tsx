@@ -3,26 +3,27 @@ import React, { FC, useEffect } from "react";
 import Localstorage from "@utils/storage";
 import { UserState } from "@typings/userInfo";
 import mainRoutes from "@router/mainRoutes";
-import { KeepAlive } from "react-activation";
+import CacheRoute from "react-router-cache-route";
 
 const PrivateRoute: FC = (appProps: any) => {
   const userInfo = Localstorage.getValue<UserState>("userInfo");
-  const isLogin:boolean = userInfo && userInfo.id ? true : false;
+  // const isLogin: boolean = userInfo && userInfo.id ? true : false;
+  const isLogin: boolean = true;
   const { location, ...rest } = appProps;
   const { pathname } = location;
   console.log(appProps, "PrivateRoute");
   console.log(userInfo);
   console.log("页面载入之前");
   useEffect(() => {
-    console.log('页面载入完成')
-  }, [])
+    console.log("页面载入完成");
+  }, []);
 
   const targetRouterConfig = mainRoutes.find(
     (v: RouteProps) => v.path === pathname
   );
 
   return (
-    <Route
+    <CacheRoute
       {...rest}
       render={props => {
         if (isLogin) {
@@ -32,12 +33,8 @@ const PrivateRoute: FC = (appProps: any) => {
           }
           if (targetRouterConfig) {
             const Component: any = targetRouterConfig.component;
-            return (
-              <KeepAlive>
-                <Component {...props} />
-              </KeepAlive>
-            );
-          }else{
+            return <Component {...props} />;
+          } else {
             return <Redirect to="/" />;
           }
         }
