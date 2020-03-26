@@ -26,7 +26,7 @@ export const setUserInfo: (user: UserState) => IAction<UserState> = (user: UserS
     payload: user,
 });
 
-export const logout: () => IAction<null> = () => ({
+export const userout: () => IAction<null> = () => ({
     type: SET_USER_OUT,
     payload: null,
 })

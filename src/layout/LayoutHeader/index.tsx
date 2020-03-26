@@ -1,44 +1,22 @@
 import React from "react";
-import { Layout, Menu, Dropdown, Button, Avatar } from "antd";
-import { DownOutlined, UserOutlined } from "@ant-design/icons";
+import { Layout } from "antd";
 import "./index.less";
+import logoPic from '@assets/logo@3x.png';
+import LayoutUserInfo from '../LayoutUserInfo/index';
+
 const { Header } = Layout;
 
-const menu = (
-  <Menu>
-    <Menu.Item>
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="http://www.alipay.com/"
-      >
-        1st menu item
-      </a>
-    </Menu.Item>
-    <Menu.Item>
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="http://www.taobao.com/"
-      >
-        2nd menu item
-      </a>
-    </Menu.Item>
-    <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">
-        3rd menu item
-      </a>
-    </Menu.Item>
-  </Menu>
-);
+
 
 const LayoutHeader:React.FC = ()=>{
     return (
       <>
         <Header className="header">
-          <div className="logo" />
+          <div className="logo">
+            <img src={logoPic} alt="logo" />
+          </div>
           <div className="top-navigation">
-            <Menu
+            {/* <Menu
               theme="dark"
               mode="horizontal"
               defaultSelectedKeys={["2"]}
@@ -47,16 +25,9 @@ const LayoutHeader:React.FC = ()=>{
               <Menu.Item key="1">nav 1</Menu.Item>
               <Menu.Item key="2">nav 2</Menu.Item>
               <Menu.Item key="3">nav 3</Menu.Item>
-            </Menu>
+            </Menu> */}
           </div>
-          <div className="user-info">
-            <Dropdown overlay={menu} placement="bottomCenter">
-              <Button type="link" onClick={e => e.preventDefault()}>
-                <Avatar icon={<UserOutlined />} />
-                wss <DownOutlined />
-              </Button>
-            </Dropdown>
-          </div>
+          <LayoutUserInfo />
         </Header>
       </>
     );

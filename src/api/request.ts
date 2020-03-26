@@ -7,111 +7,90 @@
  * @FilePath: /platform/src/api/request.ts
  */
 
-import axios, { AxiosRequestConfig, AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosRequestConfig, AxiosError, AxiosResponse, AxiosInstance } from 'axios';
 import qs from 'qs';
-import { AdminConfig } from '../config';
-import { message, Modal } from 'antd';
-
-
-
-interface ResponseData<T> {
-    code: number,
-    data: T,
-    msg: string
-}
-
-interface Options extends AxiosRequestConfig {
-    globalHandle?: boolean,
-    isTransformRequest?: boolean
-}
-
-const cancels = [];
-
-axios.defaults.headers = {
-    'Content-Type': 'application/json;charset=utf-8',
-    'post':{
-        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
-    },
-    'put': {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
-    },
-    'get': {
-        'Pragma': 'no-cache',
-        'Cache-Control': 'no-cache'
-    }
-};
+import { ResponseData, Options, RCancel, ABaseConfig, RequestFunc } from '@typings/axios';
 
 // axios.defaults.baseURL = process.env.NODE_ENV === 'production' ?
 //     AdminConfig.PRODUCTION_URL :
 //     AdminConfig.DEV_URL;
 
-axios.defaults.timeout = 60000;
-axios.defaults.withCredentials = true;
+// 初始化 设置钩子函数
+let _before: (config: AxiosRequestConfig) => void = ()=>{},
+    _error: (arg0: any) => void = () => { },
+    _success: (arg0: AxiosResponse<ResponseData<any>>) => void = () => { },
+    _complete: () => void = () => { };
+export function init(options: any) {
+    const defaultOptions = {
+        before() { },
+        error() { },
+        success() { },
+        complete() { }
+    };
+    options = Object.assign({}, defaultOptions, options);
+    _before = options.before;
+    _error = options.error;
+    _success = options.success;
+    _complete = options.complete;
+}
+function handleError(err: any) {
+    const isCanceled = err && err.message && err.message.canceled;
+    if (isCanceled) return;
+    _error(err);
+}
 
-// 添加请求拦截器
-axios.interceptors.request.use(
-    (config: AxiosRequestConfig) => {
-        const token = '';
-        // 获取用户token，用于校验
-        /* eslint-disable  no-param-reassign */
-        if (token) {
-            config.headers.token = token;
+let cancels: RCancel[] = [];
+const removeCancel = (ever: AxiosRequestConfig) => {
+    const key = ever.url + '&' + ever.method;
+    const index = cancels.findIndex(c => (c.u) === key);
+    cancels[index].f(); // 执行取消操作
+    cancels.splice(index, 1);
+}
+
+function setOptions(axiosInstance: AxiosInstance, isCancel: boolean) {
+    // 添加请求拦截器
+    axiosInstance.interceptors.request.use(
+        (config: AxiosRequestConfig) => {
+            // 在发送请求之前做某事
+            if (isCancel) {
+                // 是否阻止同一个请求多次提交
+                removeCancel(config);
+            }
+            _before(config);
+            return config;
+        },
+        (error: AxiosError) => {
+            // 请求错误时做些事
+            // _error(error)
+            _complete();
+            return Promise.reject(error);
         }
-        return config;
-    },
-    (error: AxiosError) => Promise.reject(error)
-)
-
-// 添加响应拦截器，拦截登录过期或者没有权限
-axios.interceptors.response.use(
-    (response: AxiosResponse<ResponseData<any>>) => {
-        console.log(response)
-        const { data } = response;
-        if (!data) {
+    )
+    // 添加响应拦截器，拦截登录过期或者没有权限
+    axiosInstance.interceptors.response.use(
+        (response: AxiosResponse<ResponseData<any>>) => {
+            console.log(response)
+            const { data } = response;
+            _success(response);
+            _complete();
             return Promise.reject(response);
+        },
+        (error: AxiosError) => {
+            _complete();
+            handleError(error);
+            return Promise.reject(error)
         }
-        // 登录已过期或者未登录
-        if (data.code === AdminConfig.LOGIN_EXPIRE) {
-            Modal.confirm({
-                title: '系统提示',
-                content: response.data.msg,
-                okText: '重新登录',
-                onOk() {
-                    // store.dispatch(clearSideBarRoutes());
-                    // store.dispatch(logout());
-                    window.location.href = `${
-                        window.location.origin
-                        }/login`;
-                },
-                onCancel() { },
-            });
-
-            return Promise.reject(new Error(data.msg));
-        }
-
-        // 请求成功
-        if (data.code === AdminConfig.SUCCESS_CODE) {
-            return response.data as any;
-        }
-
-        // 请求成功，状态不为成功时
-        message.error(response.data.msg);
-
-        return Promise.reject(new Error(data.msg));
-
-    },
-    (error: AxiosError) => {
-        console.log(error)
-        return Promise.reject(error)
-    }
-)
-
+    )
+}
 
 export default function fetch(options: Options = {}) {
-    const { globalHandle = true, isTransformRequest = true } = options;
+    const { globalHandle = true, isTransformRequest = true, isCancel = false } = options;
     const CancelToken = axios.CancelToken;
-    const config:AxiosRequestConfig = {};
-    config.cancelToken = new CancelToken(c => cancels.push(c))
+    const config: AxiosRequestConfig = options;
+    config.cancelToken = new CancelToken(c => cancels.push({
+        u: options.url + '&' + options.method,
+        f: c
+    }))
     if (isTransformRequest) {
         config.transformRequest = [
             data => {
@@ -120,9 +99,39 @@ export default function fetch(options: Options = {}) {
             }
         ];
     }
-    const instance = axios.create(options);
+    const instance = axios.create(config);
+    // 覆写axios的默认配置
+    instance.defaults.headers = {
+        'Content-Type': 'application/json;charset=utf-8',
+        // 'post': {
+        //     'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+        // },
+        // 'put': {
+        //     'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+        // },
+        'get': {
+            'Pragma': 'no-cache',
+            'Cache-Control': 'no-cache'
+        }
+    };
+    instance.defaults.timeout = 60000;
+    instance.defaults.withCredentials = true;
+
+    if (globalHandle) {
+        setOptions(instance, isCancel);
+    }
     return instance;
 }
+
+export function cancelFetches() {
+    cancels.forEach(cancel => {
+        cancel.f();
+    });
+    cancels = [];
+}
+
+
+
 
 
 

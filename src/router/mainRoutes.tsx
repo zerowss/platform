@@ -11,6 +11,10 @@ import { RouteProps } from "react-router-dom";
 
 const { lazy } = React;
 
+const FirstPage = lazy(() =>
+  import(/* webpackChunkName:"firstPage" */ "../views/firstpage")
+);
+
 const TodoList = lazy(() =>
   import(/* webpackChunkName:"todolist" */ "../views/todolist")
 );
@@ -24,6 +28,11 @@ const NoFoundPage = lazy(() =>
 );
 
 const mainRoutes: RouteProps[] = [
+  {
+    path: "/first-page",
+    exact: true,
+    component: FirstPage
+  },
   {
     path: "/todoList",
     exact: true,

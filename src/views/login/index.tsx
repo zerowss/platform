@@ -13,7 +13,8 @@ import "./index.less";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import {setUserInfo} from '@store/module/user'
 import logoPic from "@assets/logo@3x.png";
-// import Fizz from "../bubble/index";
+// import Fizz from "@components/bubble/index";
+import request from '@api/index'
 
 import SHA1 from "sha1";
 import { getSalt, login, UserLoginData } from "./api";
@@ -53,6 +54,12 @@ const Login: React.FC = (props: any) => {
       message.error(data.msg);
       setLoading(false);
     }
+
+    request(getSalt,{
+      onSuccess:(res)=>{
+        console.log(res);
+      }
+    });
   }
 
   // 登录提交

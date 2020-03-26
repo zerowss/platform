@@ -6,7 +6,7 @@ import Icon, {
   NotificationOutlined
 } from "@ant-design/icons";
 import "./index.less";
-import MenuConfig from "../menuConfig";
+import MenuConfig from "../../router/menuConfig";
 import { Link } from "react-router-dom";
 import {RouteConfigs, RouteMeta} from '../../typings/menuRouter'
 
