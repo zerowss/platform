@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-03-16 16:49:12
+ * @LastEditTime: 2020-03-29 15:42:55
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: /platform/src/typings/menuRouter.ts
+ */
 import {RouteProps} from 'react-router-dom'
 export interface RouteBase extends RouteProps {
     path?: string;
@@ -9,6 +17,8 @@ export interface RouteBase extends RouteProps {
     auth?: boolean;
     // 权限
     key?: string;
+    // 层级
+    keyPath?: string[]
 }
 
 export interface RouteMeta {

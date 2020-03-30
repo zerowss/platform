@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-03-11 18:06:41
- * @LastEditTime: 2020-03-13 10:23:38
+ * @LastEditTime: 2020-03-29 12:05:10
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /platform/src/store/index.ts
@@ -9,13 +9,16 @@
 import { createStore, combineReducers, applyMiddleware, compose, Middleware, Reducer } from 'redux';
 import reduxThunk from 'redux-thunk';
 import reduxLogger from 'redux-logger';
+import { IStoreState, IAction } from './types';
+
 import todosReducer from './module/todolist';
 import userReducer from './module/user';
-import { IStoreState, IAction } from './types';
+import appReducer from './module/app';
 
 const reducers: Reducer<IStoreState, IAction<any>> = combineReducers<IStoreState>({
     todos: todosReducer,
-    user: userReducer
+    user: userReducer,
+    app: appReducer
 });
 
 const middleware: Middleware[] = [reduxThunk];

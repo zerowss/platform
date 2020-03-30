@@ -38,6 +38,29 @@ const MenuConfig: RouteConfigs[] = [
                 path: '/detail'
             }
         ]
+    },
+    {
+        key: '3',
+        meta: {
+            title: '系统管理',
+            icon: LaptopOutlined
+        },
+        children: [
+            {
+                key: '3-1',
+                meta: {
+                    title: '用户管理'
+                },
+                path: '/system-management/user-management'
+            },
+            {
+                key: '3-2',
+                meta: {
+                    title: '角色管理'
+                },
+                path: '/system-management/role-management'
+            }
+        ]
     }
 ]
 

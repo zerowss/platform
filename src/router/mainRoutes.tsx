@@ -8,6 +8,7 @@
  */
 import * as React from "react";
 import { RouteProps } from "react-router-dom";
+import systemManagementRoutes from "./system-management/index";
 
 const { lazy } = React;
 
@@ -27,7 +28,7 @@ const NoFoundPage = lazy(() =>
   import(/* webpackChunkName:"404" */ "../components/404")
 );
 
-const mainRoutes: RouteProps[] = [
+let mainRoutes: RouteProps[] = [
   {
     path: "/first-page",
     exact: true,
@@ -49,5 +50,7 @@ const mainRoutes: RouteProps[] = [
     component: NoFoundPage
   }
 ];
+
+mainRoutes = [...systemManagementRoutes, ...mainRoutes];
 
 export default mainRoutes;

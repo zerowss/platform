@@ -1,6 +1,15 @@
+/*
+ * @Author: your name
+ * @Date: 2020-03-18 18:24:37
+ * @LastEditTime: 2020-03-29 22:16:00
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: /platform/src/store/module/user.ts
+ */
 import { Reducer } from 'redux';
 import { IAction } from '../types';
 import LocalStore from '@utils/storage';
+
 // 定义接口
 import { UserState } from '@typings/userInfo';
 
@@ -17,7 +26,6 @@ const defaultUser: UserState = {
     name: '',
     created_at: '',
     updated_at: '',
-    source: 0,
     ...localUserInfo
 };
 

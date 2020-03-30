@@ -18,12 +18,7 @@ const Home: React.FC = props => {
           <LayoutSider />
           <Layout className="right-wrap">
             <Breadcrumb />
-            <Content
-              className="site-layout-background"
-              style={{
-                margin: 0
-              }}
-            >
+            <Content className="site-layout-background">
               <LayoutContent />
             </Content>
           </Layout>

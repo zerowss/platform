@@ -1,14 +1,13 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import { Layout, Menu } from "antd";
-import Icon, {
-  UserOutlined,
-  LaptopOutlined,
-  NotificationOutlined
-} from "@ant-design/icons";
 import "./index.less";
 import MenuConfig from "../../router/menuConfig";
 import { Link } from "react-router-dom";
-import {RouteConfigs, RouteMeta} from '../../typings/menuRouter'
+import { RouteConfigs, RouteMeta } from "../../typings/menuRouter";
+import { ClickParam } from "antd/lib/menu";
+import { useSelector, useDispatch } from "react-redux";
+import { IStoreState } from "@store/types";
+import { setAppActive, setAppOpendPage } from "@store/module/app";
 
 const { SubMenu, Item } = Menu;
 const { Sider } = Layout;
@@ -52,14 +51,50 @@ function renderMenu(menu: RouteConfigs) {
   return renderMenuRoute(menu);
 }
 
+function getMenu(pKey: string, childkey: string | null) {
+  const pMenu: RouteConfigs = MenuConfig.find(m => m.key === pKey)!;
+  if (childkey && pMenu) {
+    if (pMenu.children) {
+      const childMenu: RouteConfigs = pMenu.children.find(
+        m => m.key === childkey
+      )!;
+      childMenu.keyPath = [pMenu.key!, childMenu.key!];
+      return childMenu;
+    }
+  }
+  return pMenu;
+}
+
 const LayoutSider: React.FC = () => {
+  const menuRef = useRef("");
+  // const { activeNav } = useSelector((state: IStoreState) => state.app);
+  const dispatch = useDispatch();
+  const rootSubmenuKeys = MenuConfig.map(m => m.key);
   const [collapsVal, setCollapsVal] = useState<boolean>(false);
-  const onCollapse = useCallback(
-    collapsed => {
-      setCollapsVal(collapsed);
-    },
-    []
-  );
+  const [openKeys, setopenKeys] = useState<string[]>([]);
+  const [selectedKeys, setselectedKeys] = useState<string[]>([]);
+
+  const onCollapse = useCallback(collapsed => {
+    setCollapsVal(collapsed);
+  }, []);
+
+  const onOpenChange = (keys: string[]) => {
+    const latestOpenKey = keys.find(key => openKeys.indexOf(key) === -1);
+    if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+      setopenKeys(openKeys);
+    } else {
+      setopenKeys(latestOpenKey ? [latestOpenKey] : []);
+    }
+  };
+
+  const onClick = ({ keyPath }: ClickParam) => {
+    const pKey = keyPath.length === 1 ? keyPath[0] : keyPath[1];
+    const childkey = keyPath.length === 1 ? null : keyPath[0];
+    const activeNav = getMenu(pKey, childkey);
+    dispatch(setAppActive(activeNav));
+    dispatch(setAppOpendPage(activeNav));
+  };
+
   return (
     <>
       <Sider
@@ -74,6 +109,10 @@ const LayoutSider: React.FC = () => {
           mode="inline"
           defaultSelectedKeys={[]}
           defaultOpenKeys={[]}
+          openKeys={openKeys}
+          onOpenChange={onOpenChange}
+          onClick={onClick}
+          selectedKeys={selectedKeys}
           style={{ height: "100%", borderRight: 0 }}
         >
           {MenuConfig.map(menu => renderMenu(menu))}

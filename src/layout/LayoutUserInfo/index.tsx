@@ -6,19 +6,28 @@ import { useDispatch, useSelector } from "react-redux";
 import Localstorage from "@utils/storage";
 import { UserState } from "@typings/userInfo";
 import { userout } from "@store/module/user";
-
+import { removeCookie } from "@utils/cookis";
+import { useHistory } from "react-router-dom";
+import request from "@api/index";
+import { userOutApi } from "./api";
 
 const LayoutUserInfo: React.FC = () => {
+  const history = useHistory();
   const userInfo = Localstorage.getValue<UserState>("userInfo");
-  const name = userInfo ? userInfo.name: '';
+  const name = userInfo ? userInfo.name : "";
 
   const dispatch = useDispatch();
 
   function loginOut() {
-    dispatch(userout());
-    Localstorage.removeValue("userInfo");
+    request(userOutApi, {
+      onSuccess: () => {
+        dispatch(userout());
+        Localstorage.removeValue("userInfo");
+        removeCookie("token");
+        history.push("/login");
+      }
+    });
   }
-
 
   return (
     <>

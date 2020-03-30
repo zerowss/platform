@@ -5,10 +5,14 @@ export interface UserLoginData {
     password: string;
 }
 
-export function getSalt() {
-    return fetch().get('/api/refreshsalt')
+export function getSaltApi() {
+    return fetch().get('/api/admin-api/refreshsalt')
 }
 
-export function login(data: UserLoginData) {
-    return fetch().get('/api/login', { params: data })
+export function getTokenApi(data: UserLoginData) {
+    return fetch().post('/api/admin-api/login', data )
+}
+
+export function loginApi(data: UserLoginData) {
+    return fetch().get('/api/admin-api/user', { params: data})
 }

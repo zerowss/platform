@@ -1,5 +1,6 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
+// 定义接口返回类型
 export interface ResponseData<T> {
     code: number,
     data: T,

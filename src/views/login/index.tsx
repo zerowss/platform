@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-03-11 18:27:15
- * @LastEditTime: 2020-03-17 16:35:29
+ * @LastEditTime: 2020-03-27 16:47:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /platform/src/views/login/index.ts
@@ -11,13 +11,17 @@ import { useDispatch } from "react-redux";
 import { Form, Input, Button, message } from "antd";
 import "./index.less";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import {setUserInfo} from '@store/module/user'
+import { setUserInfo } from "@store/module/user";
 import logoPic from "@assets/logo@3x.png";
 // import Fizz from "@components/bubble/index";
-import request from '@api/index'
+import request from "@api/index";
+
+// 接口
+import { setCookie } from "@utils/cookis";
+import {UserState} from '@typings/userInfo'
 
 import SHA1 from "sha1";
-import { getSalt, login, UserLoginData } from "./api";
+import { getTokenApi, loginApi, UserLoginData } from "./api";
 
 const Login: React.FC = (props: any) => {
   // redux
@@ -32,9 +36,12 @@ const Login: React.FC = (props: any) => {
     form
       .validateFields()
       .then(values => {
-        refreshSalt({
+        const params = {
           tel: values.tel,
           password: values.password
+        };
+        getToken(params).then(() => {
+          userLogin(params);
         });
       })
       .catch(err => {
@@ -43,28 +50,25 @@ const Login: React.FC = (props: any) => {
       });
   };
 
-  // 登录前先请求盐粒
-  async function refreshSalt(params: UserLoginData) {
-    const { data } = await getSalt();
-    if (data.code === 0) {
-      const hashPass = SHA1(params.password);
-      params.password = SHA1(hashPass + data.data.salt);
-      userLogin(params);
-    } else {
-      message.error(data.msg);
-      setLoading(false);
-    }
-
-    request(getSalt,{
-      onSuccess:(res)=>{
-        console.log(res);
+  // 先获取token
+  function getToken(params: UserLoginData) {
+    
+    return request<any>(() => getTokenApi(params), {
+      onSuccess:(result)=>{
+        console.log(result,'====')
+        const token = JSON.parse(result.token);
+        setCookie("token", token.token_type + " " + token.access_token);
+      },
+      onError:(e)=>{
+        console.log(e,'---')
+        message.error(e.msg);
       }
     });
   }
 
   // 登录提交
   async function userLogin(params: UserLoginData) {
-    const { data } = await login(params);
+    const { data } = await loginApi(params);
     if (data.code === 0) {
       setLoading(false);
       dispath(setUserInfo(data.data));

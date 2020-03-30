@@ -10,12 +10,12 @@ import { UserState } from "@typings/userInfo";
 const LayoutContent: React.FC = (props:any) => {
   console.log(props);
   const userInfo = Localstorage.getValue<UserState>("userInfo");
-  // const isLogin: boolean = userInfo && userInfo.id ? true : false;
-  const isLogin: boolean = true;
+  const isLogin: boolean = userInfo && userInfo.id ? true : false;
+  // const isLogin: boolean = true;
   const { location } = props;
   const {pathname} = location;
   return (
-    <div className="content-wrap">
+    <>
       <Suspense fallback={<Loading />}>
         <CacheSwitch>
           {mainRoutes.map((r, index) => {
@@ -45,7 +45,7 @@ const LayoutContent: React.FC = (props:any) => {
           })}
         </CacheSwitch>
       </Suspense>
-    </div>
+    </>
   );
 };
 
