@@ -1,36 +1,22 @@
-import React, { useState } from "react";
-import { Tag } from "antd";
+import React from "react";
+import { Breadcrumb } from "antd";
 import "./index.less";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { IStoreState } from "@store/types";
-import { useHistory } from "react-router-dom";
-import { delAppOpendPage } from "@store/module/app";
-import { GPages } from "@typings/app";
+
 
 const Breadceumb: React.FC = () => {
-  const history = useHistory();
-  const dispatch = useDispatch();
-  const [visibleTag, setvisibleTag] = useState<boolean>(true);
-  const { opendPagesList } = useSelector((state: IStoreState) => state.app);
-  const closeTag = (menu: GPages) => {
-    setvisibleTag(false);
-    dispatch(delAppOpendPage(menu));
-  };
-
+  const { activeNav } = useSelector((state: IStoreState) => state.app);
+  const breadcrumbList = activeNav.breadceumb!;
   return (
     <>
       <div className="breadceumb-wrap">
-        {opendPagesList.map((menu,index) => (
-          <Tag key={index} closable onClose={() => closeTag(menu)} visible={visibleTag}>
-            <div
-              onClick={() => {
-                history.push(menu.path!);
-              }}
-            >
-              {menu.meta.title}
-            </div>
-          </Tag>
-        ))}
+        <Breadcrumb>
+          {breadcrumbList.map((b,index) => (
+            <Breadcrumb.Item key={index} >{b}</Breadcrumb.Item>
+          ))}
+        </Breadcrumb>
+        
       </div>
     </>
   );

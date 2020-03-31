@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, memo } from "react";
 import { Layout, Menu } from "antd";
 import "./index.less";
 import MenuConfig from "../../router/menuConfig";
@@ -8,6 +8,7 @@ import { ClickParam } from "antd/lib/menu";
 import { useSelector, useDispatch } from "react-redux";
 import { IStoreState } from "@store/types";
 import { setAppActive, setAppOpendPage } from "@store/module/app";
+import logoPic from "@assets/logo@3x.png";
 
 const { SubMenu, Item } = Menu;
 const { Sider } = Layout;
@@ -53,26 +54,25 @@ function renderMenu(menu: RouteConfigs) {
 
 function getMenu(pKey: string, childkey: string | null) {
   const pMenu: RouteConfigs = MenuConfig.find(m => m.key === pKey)!;
+  pMenu.breadceumb = [pMenu.meta.title];
   if (childkey && pMenu) {
     if (pMenu.children) {
       const childMenu: RouteConfigs = pMenu.children.find(
         m => m.key === childkey
       )!;
-      childMenu.keyPath = [pMenu.key!, childMenu.key!];
-      return childMenu;
+      pMenu.breadceumb = [pMenu.meta.title, childMenu.meta.title];
+      return pMenu;
     }
   }
   return pMenu;
 }
 
 const LayoutSider: React.FC = () => {
-  const menuRef = useRef("");
-  // const { activeNav } = useSelector((state: IStoreState) => state.app);
+  const { activeNav } = useSelector((state: IStoreState) => state.app);
   const dispatch = useDispatch();
   const rootSubmenuKeys = MenuConfig.map(m => m.key);
   const [collapsVal, setCollapsVal] = useState<boolean>(false);
   const [openKeys, setopenKeys] = useState<string[]>([]);
-  const [selectedKeys, setselectedKeys] = useState<string[]>([]);
 
   const onCollapse = useCallback(collapsed => {
     setCollapsVal(collapsed);
@@ -81,38 +81,40 @@ const LayoutSider: React.FC = () => {
   const onOpenChange = (keys: string[]) => {
     const latestOpenKey = keys.find(key => openKeys.indexOf(key) === -1);
     if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-      setopenKeys(openKeys);
+      setopenKeys(keys);
     } else {
       setopenKeys(latestOpenKey ? [latestOpenKey] : []);
     }
   };
 
-  const onClick = ({ keyPath }: ClickParam) => {
+  const onMenuClick = ({ keyPath }: ClickParam) => {
     const pKey = keyPath.length === 1 ? keyPath[0] : keyPath[1];
     const childkey = keyPath.length === 1 ? null : keyPath[0];
-    const activeNav = getMenu(pKey, childkey);
-    dispatch(setAppActive(activeNav));
-    dispatch(setAppOpendPage(activeNav));
+    const checkedNav = getMenu(pKey, childkey);
+    dispatch(setAppActive(checkedNav));
   };
 
   return (
     <>
       <Sider
-        width={200}
+        width={180}
         className="layout-sider"
+        trigger={null}
         collapsible
         collapsed={collapsVal}
         onCollapse={onCollapse}
       >
+        <div className="logo">
+          <img src={logoPic} alt="logo" />
+        </div>
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={[]}
-          defaultOpenKeys={[]}
+          defaultSelectedKeys={['3']}
+          defaultOpenKeys={['3-1']}
           openKeys={openKeys}
           onOpenChange={onOpenChange}
-          onClick={onClick}
-          selectedKeys={selectedKeys}
+          onClick={onMenuClick}
           style={{ height: "100%", borderRight: 0 }}
         >
           {MenuConfig.map(menu => renderMenu(menu))}
@@ -122,4 +124,4 @@ const LayoutSider: React.FC = () => {
   );
 };
 
-export default LayoutSider;
+export default memo(LayoutSider);

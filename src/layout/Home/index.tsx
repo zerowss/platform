@@ -4,8 +4,9 @@ import "./index.less";
 
 import LayoutHeader from "../LayoutHeader";
 import LayoutSider from "../LayoutSider";
-import Breadcrumb from "../Breadcrumb";
+
 import LayoutContent from "../LayoutContent";
+import Breadceumb from '../Breadcrumb/index';
 
 const { Content } = Layout;
 
@@ -13,15 +14,13 @@ const Home: React.FC = props => {
   return (
     <>
       <Layout className="wrapp">
-        <LayoutHeader />
+        <LayoutSider />
         <Layout className="container">
-          <LayoutSider />
-          <Layout className="right-wrap">
-            <Breadcrumb />
-            <Content className="site-layout-background">
-              <LayoutContent />
-            </Content>
-          </Layout>
+          <LayoutHeader />
+          <Content className="site-layout-background">
+            <Breadceumb />
+            <LayoutContent />
+          </Content>
         </Layout>
       </Layout>
     </>

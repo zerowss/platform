@@ -10,6 +10,7 @@ import { removeCookie } from "@utils/cookis";
 import { useHistory } from "react-router-dom";
 import request from "@api/index";
 import { userOutApi } from "./api";
+import avg from "@assets/avg.png";
 
 const LayoutUserInfo: React.FC = () => {
   const history = useHistory();
@@ -32,19 +33,20 @@ const LayoutUserInfo: React.FC = () => {
   return (
     <>
       <div className="user-info">
-        <Row gutter={16}>
-          <Col flex="40px">
-            <Avatar icon={<UserOutlined />} />
+        <Row>
+          <Col flex="36px">
+            <div className="avatar">
+              <img src={avg} alt="avatar" />
+            </div>
           </Col>
-          <Col flex="auto">
-            <div className="user-name">{name || "admin"}</div>
+          <Col flex="auto" style={{ marginLeft: "10px" }}>
+            <div className="user-name">
+              <span>{name || "admin"}</span>
+              <span>管理员</span>
+            </div>
             <div className="user-btn">
-              <Button type="link" onClick={e => e.preventDefault()}>
-                操作日志
-              </Button>
-              <Button type="link" onClick={loginOut}>
-                退出
-              </Button>
+              <a onClick={e => e.preventDefault()}>操作日志</a>
+              <a onClick={loginOut}>退出</a>
             </div>
           </Col>
         </Row>

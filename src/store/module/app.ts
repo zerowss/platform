@@ -24,12 +24,12 @@ const localAppInfo = LocalStore.getValue<GAppState>(APP_ACTIVE) || {};
 const defaultAppInfo: GAppState = {
     activeNav: {
         key: '1',
-        meta: {
+        meta:{
             title: '首页'
         },
-        path: '/first-page'
+        breadceumb: ['首页']
     },
-    opendPagesList: [],
+    opendPagesList: {},
     ...localAppInfo
 };
 
@@ -66,16 +66,14 @@ const appReducer: Reducer<GAppState, IAction<any>> = (
             LocalStore.setValue(APP_ACTIVE, defState);
             return defState
         case SET_OPENLIST:
-            if (state.opendPagesList.find(v => v.key !== payload.path)){
-                state.opendPagesList.push(payload);
-            }
-            LocalStore.setValue(APP_ACTIVE, state);
-            return state;
+            defState = {
+                ...state,
+                ...payload,
+            };
+            LocalStore.setValue(APP_ACTIVE, defState);
+            return defState;
         case REMOVE_OPENLIST:
-            if (state.opendPagesList.find(v => v.key === payload.path)) {
-                const index = state.opendPagesList.findIndex(v => v.key !== payload.path);
-                state.opendPagesList.splice(index,1);
-            }
+            state.opendPagesList = {};
             LocalStore.setValue(APP_ACTIVE, state);
             return state;
         default:

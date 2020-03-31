@@ -7,16 +7,18 @@
  * @FilePath: /platform/src/typings/app.ts
  */
 
-export interface GPages{
-    key?:string;
-    meta:{
-        title: string;
-        icon?:string;
-    }
-    path?:string;
+import { RouteConfigs } from "./menuRouter";
+
+export interface GPages extends RouteConfigs{
+    // key: string;
+    // meta:{
+    //     title:string;
+    //     icon?:string;
+    // };
+    // breadceumb: string[];
 }
 
 export interface GAppState{
-    activeNav: GPages,
-    opendPagesList: GPages[]
+    activeNav: RouteConfigs,
+    opendPagesList: RouteConfigs | {}
 }

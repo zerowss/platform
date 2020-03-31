@@ -2,17 +2,18 @@
 import {
     UserOutlined,
     LaptopOutlined,
-    NotificationOutlined
+    NotificationOutlined,
+    HomeOutlined
 } from "@ant-design/icons";
 
-import { RouteConfigs } from '../typings/menuRouter';
+import { RouteConfigs } from '@typings/menuRouter';
 
 const MenuConfig: RouteConfigs[] = [
     {
         key: '1',
         meta: {
             title: '首页',
-            icon: NotificationOutlined
+            icon: HomeOutlined
         },
         path: '/first-page'
     },

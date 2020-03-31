@@ -1,30 +1,62 @@
+@import '../../styles/var.less';
+
 .user-info {
-    .ant-row{
-        height: 64px;
+
+    .ant-row {
+        height: @header_height;
     }
-    .ant-col{
-        height: 64px;
+
+    .ant-col {
+        height: @header_height;
     }
-    .user-name{
-        height: 20px;
-        line-height: 20px;
-        font-size: 16px;
-        color: #ffffff;
-        text-align: left;
-        margin-top: 10px;
-    }
-    .user-btn{
-        height: 30px;
-        line-height: 30px;
-        font-size: 16px;
-        color: rgb(0, 0, 255);
-        text-align: left;
-        .ant-btn{
-            padding: 0;
+
+    .avatar {
+        width: 36px;
+        height: 36px;
+        margin-top: 12px;
+
+        img {
+            width: 100%;
+            height: 100%;
+            vertical-align: top;
+            border-radius: 50%;
         }
     }
-    .ant-btn-link:hover,
-    .ant-btn-link:focus{
-        color: #ffffff;
+
+    .user-name {
+        height: 20px;
+        line-height: 20px;
+        text-align: left;
+        margin-top: 10px;
+
+        span:nth-child(1) {
+            font-size: 14px;
+            color: @header_font_color;
+        }
+
+        span:nth-child(2) {
+            font-size: 12px;
+            color: @header_user_sub_font_color;
+            margin-left: 10px;
+        }
     }
+
+    .user-btn {
+        height: 20px;
+        line-height: 20px;
+
+        a {
+            font-size: 12px;
+            color: #2496E1;
+
+            &:nth-child(2) {
+                margin-left: 16px;
+            }
+
+            &:hover {
+                color: #043656;
+            }
+        }
+    }
+    
 }

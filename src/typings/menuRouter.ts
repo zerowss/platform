@@ -7,6 +7,7 @@
  * @FilePath: /platform/src/typings/menuRouter.ts
  */
 import {RouteProps} from 'react-router-dom'
+import Breadceumb from '../layout/Breadcrumb/index';
 export interface RouteBase extends RouteProps {
     path?: string;
     // 302 跳转
@@ -18,7 +19,9 @@ export interface RouteBase extends RouteProps {
     // 权限
     key?: string;
     // 层级
-    keyPath?: string[]
+    keyPath?: string[],
+    // 面包屑
+    breadceumb?: string[]
 }
 
 export interface RouteMeta {

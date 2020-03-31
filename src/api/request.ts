@@ -11,6 +11,7 @@ import axios, { AxiosRequestConfig, AxiosError, AxiosResponse, AxiosInstance } f
 import qs from 'qs';
 import { ResponseData, Options, RCancel, ABaseConfig, RequestFunc } from '@typings/axios';
 import { getCookie } from "@utils/cookis";
+import { Modal } from 'antd';
 
 // axios.defaults.baseURL = process.env.NODE_ENV === 'production' ?
 //     AdminConfig.PRODUCTION_URL :
@@ -68,8 +69,6 @@ function setOptions(axiosInstance: AxiosInstance, isCancel: boolean) {
             return config;
         },
         (error: AxiosError) => {
-            // 请求错误时做些事
-            // _error(error)
             _complete();
             return Promise.reject(error);
         }
@@ -77,6 +76,7 @@ function setOptions(axiosInstance: AxiosInstance, isCancel: boolean) {
     // 添加响应拦截器，拦截登录过期或者没有权限
     axiosInstance.interceptors.response.use(
         (response: AxiosResponse<ResponseData<any>>) => {
+            const {data,status} = response;
             _success(response);
             _complete();
             return response;
@@ -84,6 +84,12 @@ function setOptions(axiosInstance: AxiosInstance, isCancel: boolean) {
         (error: AxiosError) => {
             _complete();
             handleError(error);
+            const modal = Modal.confirm({
+                title: '系统提示',
+                content: `系统错误:${error}`,
+                onOk() { modal.destroy();},
+                onCancel() { },
+            });
             return Promise.reject(error)
         }
     )
@@ -101,26 +107,15 @@ export default function fetch(options: Options = {}) {
         config.transformRequest = [
             data => {
                 data = qs.stringify(data);
-                console.log(data,'sdsd=sd=s=ds=d')
                 return data;
             }
         ];
     }
     const instance = axios.create(config);
     // 覆写axios的默认配置
-    instance.defaults.headers = {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-        'post': {
-            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
-        },
-        'put': {
-            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
-        },
-        'get': {
-            'Pragma': 'no-cache',
-            'Cache-Control': 'no-cache'
-        }
-    };
+    instance.defaults.headers['post']['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+    instance.defaults.headers['get']['Pragma'] = 'no-cache';
+    instance.defaults.headers['get']['Cache-Control'] = 'no-cache';
     instance.defaults.timeout = 60000;
 
     if (globalHandle) {

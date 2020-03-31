@@ -3,7 +3,7 @@ import { Switch, Route, Redirect,withRouter } from "react-router-dom";
 import "./index.less";
 import Loading from "@components/loading";
 import mainRoutes from "@router/mainRoutes";
-import CacheRoute, { CacheSwitch } from "react-router-cache-route";
+// import CacheRoute, { CacheSwitch } from "react-router-cache-route";
 import Localstorage from "@utils/storage";
 import { UserState } from "@typings/userInfo";
 
@@ -17,21 +17,21 @@ const LayoutContent: React.FC = (props:any) => {
   return (
     <>
       <Suspense fallback={<Loading />}>
-        <CacheSwitch>
+        <Switch>
           {mainRoutes.map((r, index) => {
-            const {path,exact,component} = r;
+            const { path, exact, component } = r;
             if (isLogin) {
               if (path === "/login") {
                 return <Redirect key={index} to="/" />;
               }
               return (
-                <CacheRoute
+                <Route
                   key={index}
                   exact={exact}
                   path={path}
                   component={component}
                 />
-              ); 
+              );
             }
             return (
               <Redirect
@@ -41,9 +41,9 @@ const LayoutContent: React.FC = (props:any) => {
                   state: { redirect: pathname } // 重定向地址
                 }}
               />
-            ); 
+            );
           })}
-        </CacheSwitch>
+        </Switch>
       </Suspense>
     </>
   );
