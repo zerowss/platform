@@ -13,11 +13,10 @@ import * as serviceWorker from "./serviceWorker";
 
 console.log('app start');
 
-
 ReactDOM.render(
   <Provider store={store}>
-    <ConfigProvider locale={zhCN}>
-        <App />
+    <ConfigProvider locale={zhCN} componentSize="large">
+      <App />
     </ConfigProvider>
   </Provider>,
   document.getElementById("root")

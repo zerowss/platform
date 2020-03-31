@@ -18,7 +18,7 @@ import { Modal } from 'antd';
 //     AdminConfig.DEV_URL;
 
 // 初始化 设置钩子函数
-let _before: (config: AxiosRequestConfig) => void = ()=>{},
+let _before: (config: AxiosRequestConfig) => void = () => { },
     _error: (arg0: any) => void = () => { },
     _success: (arg0: AxiosResponse<ResponseData<any>>) => void = () => { },
     _complete: () => void = () => { };
@@ -76,7 +76,7 @@ function setOptions(axiosInstance: AxiosInstance, isCancel: boolean) {
     // 添加响应拦截器，拦截登录过期或者没有权限
     axiosInstance.interceptors.response.use(
         (response: AxiosResponse<ResponseData<any>>) => {
-            const {data,status} = response;
+            const { data, status } = response;
             _success(response);
             _complete();
             return response;
@@ -87,8 +87,9 @@ function setOptions(axiosInstance: AxiosInstance, isCancel: boolean) {
             const modal = Modal.confirm({
                 title: '系统提示',
                 content: `系统错误:${error}`,
-                onOk() { modal.destroy();},
-                onCancel() { },
+                zIndex: 2000,
+                onOk() { modal.destroy(); },
+                onCancel() { modal.destroy(); },
             });
             return Promise.reject(error)
         }

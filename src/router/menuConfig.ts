@@ -1,10 +1,11 @@
 
-import {
-    UserOutlined,
-    LaptopOutlined,
-    NotificationOutlined,
-    HomeOutlined
-} from "@ant-design/icons";
+// import {
+//     UserOutlined,
+//     LaptopOutlined,
+//     NotificationOutlined,
+//     HomeOutlined
+// } from "@ant-design/icons";
+import * as Allicons from "@ant-design/icons";
 
 import { RouteConfigs } from '@typings/menuRouter';
 
@@ -13,7 +14,7 @@ const MenuConfig: RouteConfigs[] = [
         key: '1',
         meta: {
             title: '首页',
-            icon: HomeOutlined
+            icon: Allicons['HomeOutlined']
         },
         path: '/first-page'
     },
@@ -21,7 +22,7 @@ const MenuConfig: RouteConfigs[] = [
         key: '2',
         meta: {
             title: '管理',
-            icon: LaptopOutlined
+            icon: Allicons.LaptopOutlined
         },
         children: [
             {
@@ -44,7 +45,7 @@ const MenuConfig: RouteConfigs[] = [
         key: '3',
         meta: {
             title: '系统管理',
-            icon: LaptopOutlined
+            icon: Allicons.NotificationOutlined
         },
         children: [
             {
@@ -60,6 +61,20 @@ const MenuConfig: RouteConfigs[] = [
                     title: '角色管理'
                 },
                 path: '/system-management/role-management'
+            },
+            {
+                key: '3-3',
+                meta: {
+                    title: '添加路由'
+                },
+                path: '/system-management/route-add'
+            },
+            {
+                key: '3-4',
+                meta: {
+                    title: '路由列表'
+                },
+                path: '/system-management/route-list'
             }
         ]
     }

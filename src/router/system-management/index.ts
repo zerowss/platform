@@ -9,6 +9,12 @@ const RoleManagement = lazy(() =>
 const UserManagement = lazy(() =>
     import(/* webpackChunkName:"userManagement" */ "@views/system-management/user-management/index")
 );
+const RouteAdd = lazy(() =>
+    import(/* webpackChunkName:"routeAdd" */ "@views/system-management/route-add/index")
+);
+const RouteList = lazy(() =>
+    import(/* webpackChunkName:"routeList" */ "@views/system-management/route-list/index")
+);
 
 
 const systemManagementRoutes: RouteProps[] = [
@@ -21,6 +27,16 @@ const systemManagementRoutes: RouteProps[] = [
         path: "/system-management/user-management",
         exact: true,
         component: UserManagement
+    },
+    {
+        path: "/system-management/route-add",
+        exact: true,
+        component: RouteAdd
+    },
+    {
+        path: "/system-management/route-list",
+        exact: true,
+        component: RouteList
     }
 ];
 

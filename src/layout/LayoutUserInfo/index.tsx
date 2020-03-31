@@ -1,8 +1,7 @@
 import React from "react";
-import { Button, Avatar, Row, Col } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { Row, Col } from "antd";
 import "./index.less";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Localstorage from "@utils/storage";
 import { UserState } from "@typings/userInfo";
 import { userout } from "@store/module/user";
@@ -15,7 +14,8 @@ import avg from "@assets/avg.png";
 const LayoutUserInfo: React.FC = () => {
   const history = useHistory();
   const userInfo = Localstorage.getValue<UserState>("userInfo");
-  const name = userInfo ? userInfo.name : "";
+  const name = userInfo ? userInfo.username : "";
+  const roleName = userInfo ? userInfo.name : "";
 
   const dispatch = useDispatch();
 
@@ -41,8 +41,8 @@ const LayoutUserInfo: React.FC = () => {
           </Col>
           <Col flex="auto" style={{ marginLeft: "10px" }}>
             <div className="user-name">
-              <span>{name || "admin"}</span>
-              <span>管理员</span>
+              <span>{name}</span>
+              <span>{roleName}</span>
             </div>
             <div className="user-btn">
               <a onClick={e => e.preventDefault()}>操作日志</a>

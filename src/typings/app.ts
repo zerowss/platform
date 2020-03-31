@@ -16,9 +16,10 @@ export interface GPages extends RouteConfigs{
     //     icon?:string;
     // };
     // breadceumb: string[];
+    child?: RouteConfigs
 }
 
 export interface GAppState{
-    activeNav: RouteConfigs,
+    activeNav: GPages,
     opendPagesList: RouteConfigs | {}
 }

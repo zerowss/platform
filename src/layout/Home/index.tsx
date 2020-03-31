@@ -19,7 +19,9 @@ const Home: React.FC = props => {
           <LayoutHeader />
           <Content className="site-layout-background">
             <Breadceumb />
-            <LayoutContent />
+            <div className="main-content">
+              <LayoutContent />
+            </div>
           </Content>
         </Layout>
       </Layout>

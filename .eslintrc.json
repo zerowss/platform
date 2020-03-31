@@ -43,6 +43,7 @@
         ]
       }
     ],
+    "react/display-name":"off",
     "@typescript-eslint/no-useless-constructor": "error",
     "@typescript-eslint/array-type": "error",
     "@typescript-eslint/ban-types": "error",
