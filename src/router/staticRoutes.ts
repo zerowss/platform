@@ -25,7 +25,8 @@ const staticRoutes: RouteProps[] = [
     },
     {
         path: "/",
-        component: Home
+        component: Home,
+        children: mainRoutes
     }
 ];
 

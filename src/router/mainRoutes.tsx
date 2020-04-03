@@ -30,7 +30,7 @@ const NoFoundPage = lazy(() =>
 
 let mainRoutes: RouteProps[] = [
   {
-    path: "/first-page",
+    path: "/index",
     exact: true,
     component: FirstPage
   },
@@ -43,6 +43,11 @@ let mainRoutes: RouteProps[] = [
     path: "/detail",
     exact: true,
     component: Detail
+  },
+  {
+    path: "/",
+    exact: true,
+    component: FirstPage
   },
   {
     path: "*",

@@ -19,17 +19,17 @@ export interface Config {
 
     TOKEN_KEY: string;
 
-    layout: 'side' | 'top';
+    layout?: 'side' | 'top';
 
-    theme: 'dark' | 'light';
+    theme?: 'dark' | 'light';
 
-    fixedHeader: boolean;
+    fixedHeader?: boolean;
 
-    contentWidth: 'fluid' | 'fixed';
+    contentWidth?: 'fluid' | 'fixed';
 
-    colorWeak: boolean;
+    colorWeak?: boolean;
 
-    title: string;
+    title?: string;
 
     logo?: string;
 }
@@ -53,23 +53,7 @@ export const AdminConfig: Config = {
     // 本地存储token 的key
     TOKEN_KEY: 'Admin_Token_key',
 
-    // 默认菜单栏位置
-    layout: 'side',
-
     // 默认主题颜色
-    theme: 'dark',
-
-    // 是否固定头部
-    fixedHeader: false,
-
-    // 固定宽度或者流式宽度
-    contentWidth: 'fixed',
-
-    // 是否开启色弱模式
-    colorWeak: false,
-
-    // 项目名称
-    title: 'React Ant Admin',
-
-    // logo
+    theme: 'dark'
+    
 }

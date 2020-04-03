@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Layout } from "antd";
 import "./index.less";
 
@@ -6,7 +6,7 @@ import LayoutHeader from "../LayoutHeader";
 import LayoutSider from "../LayoutSider";
 
 import LayoutContent from "../LayoutContent";
-import Breadceumb from '../Breadcrumb/index';
+import Breadceumb from "../Breadcrumb/index";
 
 const { Content } = Layout;
 

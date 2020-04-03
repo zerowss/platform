@@ -26,6 +26,7 @@ const defaultUser: UserState = {
     name: '',
     created_at: '',
     updated_at: '',
+    user_routes: [],
     ...localUserInfo
 };
 
@@ -47,11 +48,12 @@ const userReducer: Reducer<UserState, IAction<any>> = (
     const { type, payload } = action;
     switch (type) {
         case SET_USER_INFO:
+            console.log('获取用户信息')
             LocalStore.setValue(USER_KEY, payload);
             return {
                 ...payload,
             };
-        case 'REMOVE_TOKEN':
+        case SET_USER_OUT:
             LocalStore.removeValue(USER_KEY);
             return {
                 ...defaultUser,

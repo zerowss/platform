@@ -15,7 +15,7 @@ console.log('app start');
 
 ReactDOM.render(
   <Provider store={store}>
-    <ConfigProvider locale={zhCN} componentSize="large">
+    <ConfigProvider locale={zhCN} componentSize="middle">
       <App />
     </ConfigProvider>
   </Provider>,

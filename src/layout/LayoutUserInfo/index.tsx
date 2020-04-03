@@ -23,7 +23,6 @@ const LayoutUserInfo: React.FC = () => {
     request(userOutApi, {
       onSuccess: () => {
         dispatch(userout());
-        Localstorage.removeValue("userInfo");
         removeCookie("token");
         history.push("/login");
       }

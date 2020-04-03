@@ -7,13 +7,14 @@
  * @FilePath: /platform/src/typings/menuRouter.ts
  */
 import {RouteProps} from 'react-router-dom'
-import Breadceumb from '../layout/Breadcrumb/index';
+
+//  与后端约定
 export interface RouteBase extends RouteProps {
-    path?: string;
+    path: string;
     // 302 跳转
     redirect?: string;
     // 路由信息
-    meta: RouteMeta;
+    meta?: RouteMeta;
     // 是否校验权限, false 为不校验, 不存在该属性或者为true 为校验, 子路由会继承父路由的 auth 属性
     auth?: boolean;
     // 权限
@@ -21,7 +22,19 @@ export interface RouteBase extends RouteProps {
     // 层级
     keyPath?: string[],
     // 面包屑
-    breadceumb?: string[]
+    breadceumb?: string[],
+
+    id: number;
+    parent_id?: number;
+    title: string;
+    order?:number;
+    icon?: string;
+    menu?: boolean;
+    cache?: boolean;
+    created_at?: string;
+    updated_at?: string;
+    permission?: string;
+    roles?: string[]
 }
 
 export interface RouteMeta {

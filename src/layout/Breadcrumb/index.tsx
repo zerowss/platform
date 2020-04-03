@@ -7,7 +7,7 @@ import { IStoreState } from "@store/types";
 
 const Breadceumb: React.FC = () => {
   const { activeNav } = useSelector((state: IStoreState) => state.app);
-  const breadcrumbList = activeNav.breadceumb!;
+  const breadcrumbList = activeNav.breadceumb || [];
   return (
     <>
       <div className="breadceumb-wrap">

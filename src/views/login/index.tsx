@@ -7,7 +7,7 @@
  * @FilePath: /platform/src/views/login/index.ts
  */
 import React, { useState, memo } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Form, Input, Button, message } from "antd";
 import "./index.less";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
@@ -18,14 +18,16 @@ import request from "@api/index";
 
 // 接口
 import { setCookie } from "@utils/cookis";
-import {UserState} from '@typings/userInfo'
+import { UserState } from "@typings/userInfo";
 
 import SHA1 from "sha1";
 import { getTokenApi, loginApi, UserLoginData } from "./api";
+import { IStoreState } from "@store/types";
 
 const Login: React.FC = (props: any) => {
   // redux
   const dispath = useDispatch();
+  const { activeNav } = useSelector((state: IStoreState) => state.app);
 
   const [form] = Form.useForm();
   const { history } = props;
@@ -52,15 +54,14 @@ const Login: React.FC = (props: any) => {
 
   // 先获取token
   function getToken(params: UserLoginData) {
-    
     return request<any>(() => getTokenApi(params), {
-      onSuccess:(result)=>{
-        console.log(result,'====')
+      onSuccess: result => {
+        console.log(result, "====");
         const token = JSON.parse(result.token);
         setCookie("token", token.token_type + " " + token.access_token);
       },
-      onError:(e)=>{
-        console.log(e,'---')
+      onError: e => {
+        console.log(e, "---");
         message.error(e.msg);
       }
     });
@@ -73,7 +74,12 @@ const Login: React.FC = (props: any) => {
       setLoading(false);
       dispath(setUserInfo(data.data));
       message.success("登录成功!");
-      history.push("/");
+      if (activeNav) {
+        const oldPath = activeNav.child?activeNav.child.path:'/';
+        history.push(oldPath);
+      } else {
+        history.push("/");
+      }
     } else {
       message.error(data.data[0]);
       setLoading(false);

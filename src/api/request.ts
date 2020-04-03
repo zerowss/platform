@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-03-11 13:44:35
- * @LastEditTime: 2020-03-11 14:36:08
+ * @LastEditTime: 2020-04-02 17:48:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /platform/src/api/request.ts
@@ -115,6 +115,8 @@ export default function fetch(options: Options = {}) {
     const instance = axios.create(config);
     // 覆写axios的默认配置
     instance.defaults.headers['post']['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+    instance.defaults.headers['patch']['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+    instance.defaults.headers['delete']['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
     instance.defaults.headers['get']['Pragma'] = 'no-cache';
     instance.defaults.headers['get']['Cache-Control'] = 'no-cache';
     instance.defaults.timeout = 60000;

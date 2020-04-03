@@ -9,28 +9,36 @@ import { useSelector, useDispatch } from "react-redux";
 import { IStoreState } from "@store/types";
 import { setAppActive } from "@store/module/app";
 import logoPic from "@assets/logo@3x.png";
+import logoPicMini from '@assets/logo@3x_mini.png';
 import { GPages } from "@typings/app";
+
+import { createFromIconfontCN } from "@ant-design/icons";
+import { getUserRoutesAsync } from "@store/module/app";
+
+const MyIcon = createFromIconfontCN({
+  scriptUrl: "//at.alicdn.com/t/font_1728101_h6sfouwyp9b.js"
+});
 
 const { SubMenu, Item } = Menu;
 const { Sider } = Layout;
 
-
-function renderTitle(meta: RouteMeta) {
+function renderTitle(menu: RouteConfigs) {
   return (
     <span className="menu-item-inner">
-      {meta.icon && React.createElement(meta.icon)}
-      <span className="menu-title"> {meta.title} </span>
+      {/* {menu.icon && React.createElement(menu.icon)} */}
+      {menu.icon && <MyIcon type={menu.icon} />}
+      <span className="menu-title"> {menu.title} </span>
     </span>
   );
 }
 
 function renderMenuRoute(menu: RouteConfigs) {
   return (
-    <Item key={menu.key}>
-      {menu.path ? (
-        <Link to={menu.path}>{renderTitle(menu.meta)}</Link>
+    <Item key={menu.id}>
+      {menu.path && menu.menu ? (
+        <Link to={menu.path}>{renderTitle(menu)}</Link>
       ) : (
-        <span>{renderTitle(menu.meta)}</span>
+        <span>{renderTitle(menu)}</span>
       )}
     </Item>
   );
@@ -38,16 +46,18 @@ function renderMenuRoute(menu: RouteConfigs) {
 
 function renderSubMenu(menu: RouteConfigs) {
   return (
-    <SubMenu title={renderTitle(menu.meta)} key={menu.key}>
+    <SubMenu title={renderTitle(menu)} key={menu.id}>
       {menu.children!.map((item: RouteConfigs) =>
-        item.children ? renderSubMenu(item) : renderMenuRoute(item)
+        item.children && item.children.length
+          ? renderSubMenu(item)
+          : renderMenuRoute(item)
       )}
     </SubMenu>
   );
 }
 
 function renderMenu(menu: RouteConfigs) {
-  if (menu.children) {
+  if (menu.children && menu.children.length) {
     return renderSubMenu(menu);
   }
 
@@ -55,14 +65,14 @@ function renderMenu(menu: RouteConfigs) {
 }
 
 function getMenu(pKey: string, childkey: string | null) {
-  const pMenu: GPages = MenuConfig.find(m => m.key === pKey)!;
-  pMenu.breadceumb = [pMenu.meta.title];
+  const pMenu: GPages = MenuConfig.find(m => String(m.id) === pKey)!;
+  pMenu.breadceumb = [pMenu.title];
   if (childkey && pMenu) {
-    if (pMenu.children) {
+    if (pMenu.children && pMenu.children.length) {
       const childMenu: RouteConfigs = pMenu.children.find(
-        m => m.key === childkey
+        m => String(m.id) === childkey
       )!;
-      pMenu.breadceumb = [pMenu.meta.title, childMenu.meta.title];
+      pMenu.breadceumb = [pMenu.title, childMenu.title];
       pMenu.child = childMenu;
       return pMenu;
     }
@@ -71,13 +81,15 @@ function getMenu(pKey: string, childkey: string | null) {
 }
 
 const LayoutSider: React.FC = () => {
-  const { activeNav } = useSelector((state: IStoreState) => state.app);
+  const { activeNav, userRoutes } = useSelector(
+    (state: IStoreState) => state.app
+  );
   const dispatch = useDispatch();
-  const rootSubmenuKeys = MenuConfig.map(m => m.key);
-  const initNav = activeNav.key ? activeNav.key : "1"; // 默认首页
+  const rootSubmenuKeys = MenuConfig.map(m => String(m.id));
+  const initNav = String(activeNav.id) ? String(activeNav.id) : "1"; // 默认首页
   let initSub: string[] = [];
-  if (activeNav.child && activeNav.child.key) {
-    initSub = [activeNav.child.key];
+  if (activeNav.child && String(activeNav.child.id)) {
+    initSub = [String(activeNav.child.id)];
   }
   const [collapsVal, setCollapsVal] = useState<boolean>(false);
   const [openKeys, setopenKeys] = useState<string[]>([initNav]);
@@ -88,7 +100,7 @@ const LayoutSider: React.FC = () => {
   }, []);
 
   const onOpenChange = (keys: string[]) => {
-    const latestOpenKey = keys.find(key => openKeys.indexOf(key) === -1);
+    const latestOpenKey = keys.find(key => openKeys.indexOf(key) === -1)!;
     if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
       setopenKeys(keys);
     } else {
@@ -102,12 +114,19 @@ const LayoutSider: React.FC = () => {
     const checkedNav = getMenu(pKey, childkey);
     dispatch(setAppActive(checkedNav));
     setopenKeys([pKey]);
-    setselectedKeys(childkey?[childkey]:[]);
+    setselectedKeys(childkey ? [childkey] : []);
     if (checkedNav.key === "1") {
       setopenKeys([]);
-      setselectedKeys([])
+      setselectedKeys([]);
     }
   };
+
+  // 更新路由
+  useEffect(() => {
+    console.log("update");
+    const action = getUserRoutesAsync();
+    dispatch(action);
+  }, [dispatch]);
 
   return (
     <>
@@ -118,23 +137,28 @@ const LayoutSider: React.FC = () => {
         collapsed={collapsVal}
         onCollapse={onCollapse}
       >
-        <div className="logo">
-          <img src={logoPic} alt="logo" />
+        <div className={collapsVal ? "logo logo-mini" : "logo"}>
+          <img
+            src={logoPic}
+            alt="logo"
+          />
         </div>
-        <Menu
-          className="sideMenu"
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={["3"]}
-          defaultOpenKeys={["3-1"]}
-          openKeys={openKeys}
-          selectedKeys={selectedKeys}
-          onOpenChange={onOpenChange}
-          onClick={onMenuClick}
-          style={{ height: "100%", borderRight: 0 }}
-        >
-          {MenuConfig.map(menu => renderMenu(menu))}
-        </Menu>
+        <div className="sideMenuWrap">
+          <Menu
+            className="sideMenu"
+            theme="dark"
+            mode="inline"
+            defaultSelectedKeys={[]}
+            defaultOpenKeys={[]}
+            openKeys={openKeys}
+            selectedKeys={selectedKeys}
+            onOpenChange={onOpenChange}
+            onClick={onMenuClick}
+            style={{ height: "100%", borderRight: 0 }}
+          >
+            {userRoutes.map(menu => renderMenu(menu))}
+          </Menu>
+        </div>
       </Sider>
     </>
   );

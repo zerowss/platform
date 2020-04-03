@@ -7,6 +7,13 @@ export interface ResponseData<T> {
     msg?: string
 }
 
+export interface ResData<T> {
+    data: T,
+    meta?: {
+        total: number;
+    }
+}
+
 export interface Options extends AxiosRequestConfig {
     globalHandle?: boolean,
     isTransformRequest?: boolean,

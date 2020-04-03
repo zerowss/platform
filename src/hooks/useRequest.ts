@@ -4,11 +4,11 @@ import { ABaseConfig, ResponseData } from '@typings/axios';
 import { AxiosResponse } from 'axios';
 interface BaseConfig<T> extends ABaseConfig<T> {
     manual?: boolean; //是否手动发起请求
-    dependencies: any[];
+    dependencies?: any[];
 }
 
 
-export default async function useRequest<T>(fn: () => Promise<AxiosResponse<ResponseData<T>>>, baseconfig: BaseConfig<T>) {
+export default function useRequest<T>(fn: () => Promise<AxiosResponse<ResponseData<T>>>, baseconfig: BaseConfig<T>) {
     const {
         manual = false,
         onBefore = () => { },

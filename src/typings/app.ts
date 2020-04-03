@@ -20,6 +20,7 @@ export interface GPages extends RouteConfigs{
 }
 
 export interface GAppState{
-    activeNav: GPages,
-    opendPagesList: RouteConfigs | {}
+    activeNav: GPages;
+    opendPagesList: RouteConfigs | {};
+    userRoutes: GPages[]
 }

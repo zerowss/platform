@@ -15,6 +15,9 @@ const RouteAdd = lazy(() =>
 const RouteList = lazy(() =>
     import(/* webpackChunkName:"routeList" */ "@views/system-management/route-list/index")
 );
+const PowerList = lazy(() =>
+    import(/* webpackChunkName:"powerList" */ "@views/system-management/power-list/index")
+);
 
 
 const systemManagementRoutes: RouteProps[] = [
@@ -37,6 +40,11 @@ const systemManagementRoutes: RouteProps[] = [
         path: "/system-management/route-list",
         exact: true,
         component: RouteList
+    },
+    {
+        path: "/system-management/power-list",
+        exact: true,
+        component: PowerList
     }
 ];
 

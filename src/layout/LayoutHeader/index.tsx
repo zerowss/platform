@@ -13,7 +13,7 @@ const LayoutHeader:React.FC = ()=>{
       <>
         <Header className="header">
           <div className="activeTitle">
-            {activeNav.children ? activeNav.breadceumb![1] : activeNav.breadceumb![0]}
+            {activeNav.child ? activeNav.child.title : activeNav.title}
           </div>
           <LayoutUserInfo />
         </Header>
