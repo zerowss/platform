@@ -7,10 +7,18 @@ import LayoutSider from "../LayoutSider";
 
 import LayoutContent from "../LayoutContent";
 import Breadceumb from "../Breadcrumb/index";
-
+import { cancelFetches } from "@api/request";
+import { useHistory } from "react-router-dom";
 const { Content } = Layout;
 
 const Home: React.FC = props => {
+  const history = useHistory();
+
+  // 监听路由变化  axios 取消请求
+  history.listen(route => {
+    cancelFetches();
+  });
+
   return (
     <>
       <Layout className="wrapp">

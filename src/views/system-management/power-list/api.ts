@@ -24,7 +24,9 @@ interface PostForm {
     id?: number
 }
 
-export function powerApi(method: 'get'|'post' | 'patch' | 'delete', ob: PostForm) {
+type TMethod = 'get' | 'post' | 'patch' | 'delete';
+
+export function powerApi(method: TMethod , ob: PostForm) {
     
     switch (method) {
         case 'get':
@@ -36,10 +38,8 @@ export function powerApi(method: 'get'|'post' | 'patch' | 'delete', ob: PostForm
         case 'patch':
             return fetch().patch('/api/admin-api/admin-permissions/' + ob.id, ob.params)
             break;
-        case 'delete':
+        default :
             return fetch().delete('/api/admin-api/admin-permissions/' + ob.id)
             break;        
-        default:
-            break;
     }
 }

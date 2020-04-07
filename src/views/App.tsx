@@ -1,6 +1,7 @@
 import React, { Suspense, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Loading from "@components/loading";
+
 import staticRoutes from "@router/staticRoutes";
 
 

@@ -9,7 +9,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { IStoreState } from "@store/types";
 import { setAppActive } from "@store/module/app";
 import logoPic from "@assets/logo@3x.png";
-import logoPicMini from '@assets/logo@3x_mini.png';
 import { GPages } from "@typings/app";
 
 import { createFromIconfontCN } from "@ant-design/icons";
@@ -123,7 +122,6 @@ const LayoutSider: React.FC = () => {
 
   // 更新路由
   useEffect(() => {
-    console.log("update");
     const action = getUserRoutesAsync();
     dispatch(action);
   }, [dispatch]);

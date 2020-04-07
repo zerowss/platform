@@ -81,7 +81,7 @@ const Login: React.FC = (props: any) => {
         history.push("/");
       }
     } else {
-      message.error(data.data[0]);
+      message.error(data.msg);
       setLoading(false);
     }
   }

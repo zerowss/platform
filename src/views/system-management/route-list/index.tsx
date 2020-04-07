@@ -6,8 +6,11 @@ import { RouteConfigs } from "@typings/menuRouter";
 import { DownOutlined, RightOutlined } from "@ant-design/icons";
 import "./index.less";
 import RouteEdit from "./route-edit";
+import { getUserRoutesAsync } from "@store/module/app";
+import { useDispatch } from "react-redux";
 
 const RouteList: React.FC = () => {
+  const dispatch = useDispatch();
   const [visibleDrawer, setvisibleDrawer] = useState<boolean>(false);
   const [titleDrawer, settitleDrawer] = useState<string>("");
   const [tableLoading, settableLoading] = useState<boolean>(true);
@@ -90,7 +93,7 @@ const RouteList: React.FC = () => {
 
   const addRoute = useCallback(() => {
     const isNeedIcon = true;
-    const isNeedPath = false;
+    const isNeedPath = true;
     setrowDrawer({ isNeedIcon, isNeedPath });
     settitleDrawer("新增菜单");
     setvisibleDrawer(true);
@@ -123,6 +126,7 @@ const RouteList: React.FC = () => {
           onSuccess() {
             message.success("删除成功");
             setisRefsh(true);
+            dispatch(getUserRoutesAsync());
             mod.destroy();
           },
           onError(error) {

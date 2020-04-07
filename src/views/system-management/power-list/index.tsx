@@ -2,7 +2,7 @@ import React, { memo, useState, useEffect, useCallback } from "react";
 import { Table, message, Button, Row, Modal, Form, Input } from "antd";
 import { ColumnProps } from "antd/es/table";
 import request from "@api/index";
-import { getListApi, ResponsePowerApi } from "./api";
+import { getListApi, ResponsePowerApi, powerApi } from "./api";
 import { ResData } from "@typings/axios";
 import PowerEdit from "./power-edit";
 import "./index.less";
@@ -59,7 +59,18 @@ const PowerList: React.FC = () => {
     const mod = Modal.confirm({
       title: "提示",
       content: `确定删除${data.name}？`,
-      onOk: () => {},
+      onOk: () => {
+        request(() => powerApi("delete", { id: data.id }), {
+          onSuccess() {
+            message.success("删除成功");
+            setisRefsh(true);
+            mod.destroy();
+          },
+          onError(error) {
+            message.error(error.msg);
+          }
+        });
+      },
       onCancel: () => {
         mod.destroy();
       }

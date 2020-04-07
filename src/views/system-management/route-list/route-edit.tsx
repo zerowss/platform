@@ -14,6 +14,8 @@ import { TreeNode } from "antd/lib/tree-select";
 import { RouteParams, postSubmitApi } from "./api";
 import request from "@api/index";
 import { RouteConfigs } from "@typings/menuRouter";
+import { getUserRoutesAsync } from "@store/module/app";
+import { useDispatch } from "react-redux";
 
 const { Option } = Select;
 
@@ -37,7 +39,7 @@ const EditRoute: React.FC<DrawerProps> = props => {
     parentRoutes,
     permissionList
   } = props;
-
+  const dispatch = useDispatch();
   const [form] = Form.useForm();
   const [btnLoading, setbtnLoading] = useState<boolean>(false);
   const [needPath, setneedPath] = useState<boolean>(isNeedPath);
@@ -89,6 +91,7 @@ const EditRoute: React.FC<DrawerProps> = props => {
             message.success(`${title}成功!`);
             onClose();
             refushList();
+            dispatch(getUserRoutesAsync());
           },
           onError(error) {
             setbtnLoading(false);

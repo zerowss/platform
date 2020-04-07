@@ -4,9 +4,6 @@ import {
   Button,
   Input,
   Select,
-  TreeSelect,
-  InputNumber,
-  Radio,
   message
 } from "antd";
 import React, { useState, memo } from "react";
@@ -65,23 +62,20 @@ const EditPower: React.FC<DrawerProps> = props => {
     form
       .validateFields()
       .then(values => {
-        // const method = title === "新增菜单" ? "post" : "patch";
-        // const params = { ...values } as RouteParams;
-        // params["permission"] = permissionList.find(
-        //   v => String(v.id) === params.permission_id
-        // ).slug;
-        // const id = rest.id || "";
-        // request<any>(() => postSubmitApi(method, { params, id }), {
-        //   onSuccess(res) {
-        //     message.success(`${title}成功!`);
-        //     onClose();
-        //     refushList();
-        //   },
-        //   onError(error) {
-        //     setbtnLoading(false);
-        //     message.error(error.msg);
-        //   }
-        // });
+        const method = title === "新增权限" ? "post" : "patch";
+        const params = { ...values } as ResponsePowerApi;
+        const id = state.id || "";
+        request<any>(() => powerApi(method, { params, id }), {
+          onSuccess() {
+            message.success(`${title}成功!`);
+            onClose();
+            refushList();
+          },
+          onError(error) {
+            setbtnLoading(false);
+            message.error(error.msg);
+          }
+        });
       })
       .catch(err => {
         setbtnLoading(false);
@@ -127,7 +121,7 @@ const EditPower: React.FC<DrawerProps> = props => {
             }
           ]}
         >
-          <Input maxLength={6} />
+          <Input />
         </Form.Item>
 
         <Form.Item

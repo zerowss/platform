@@ -61,7 +61,7 @@ export const getUserRoutes: (routes: GPages[]) => IAction<any> = (routes: GPages
 });
 
 export const getUserRoutesAsync = () => (dispatch: Dispatch) => {
-    console.log('beforeunload')
+    console.log('更新路由');
     getUserRoutesApi().then(res => {
         dispatch(getUserRoutes(res.data.data))
     }).catch(error=>{

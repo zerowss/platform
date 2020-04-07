@@ -4,7 +4,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 module.exports = (app)=>{
     app.use(
       createProxyMiddleware("/api", {
-        target: 'http://0700c377.ngrok.io',
+        target: 'http://phecda.t.mlwplus.com/',
         changeOrigin: true,
         pathRewrite: { "^/api": "" }
       })

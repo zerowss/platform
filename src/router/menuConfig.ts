@@ -8,7 +8,8 @@
 // import * as Allicons from "@ant-design/icons";
 
 import { RouteConfigs } from '@typings/menuRouter';
-import { initRoutes} from './utils';
+import { initRoutes, getComponent} from './utils';
+getComponent();
 
 // const MenuConfig: RouteConfigs[] = [
     // {

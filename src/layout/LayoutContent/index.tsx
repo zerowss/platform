@@ -1,22 +1,24 @@
 import React, { Suspense } from "react";
-import { Switch, Route, Redirect,withRouter } from "react-router-dom";
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import "./index.less";
-import Loading from "@components/loading";
+import Nprogress from "@components/nprogress";
 import mainRoutes from "@router/mainRoutes";
 // import CacheRoute, { CacheSwitch } from "react-router-cache-route";
 import Localstorage from "@utils/storage";
 import { UserState } from "@typings/userInfo";
 
+
 const LayoutContent: React.FC = (props:any) => {
-  console.log(props);
+  
   const userInfo = Localstorage.getValue<UserState>("userInfo");
   const isLogin: boolean = userInfo && userInfo.id ? true : false;
   // const isLogin: boolean = true;
   const { location } = props;
   const {pathname} = location;
+
   return (
     <>
-      <Suspense fallback={<Loading />}>
+      <Suspense fallback={<Nprogress />}>
         <Switch>
           {mainRoutes.map((r, index) => {
             const { path, exact, component } = r;
